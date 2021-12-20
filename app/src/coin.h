@@ -19,7 +19,7 @@
 extern "C" {
 #endif
 
-#define CLA                  0x99
+#define CLA                  0xA3
 
 #define HDPATH_LEN_DEFAULT   5
 #define HDPATH_0_DEFAULT     (0x80000000 | 0x2c)
@@ -44,17 +44,17 @@ typedef enum {
 } key_kind_e;
 
 // Coin Specific
-#define PK_ADDRESS_TYPE                     COIN_ADDR_TYPE_KUSAMA
+#define PK_ADDRESS_TYPE                     COIN_ADDR_TYPE_ELIXXIR
 #define SUPPORTED_TX_VERSION_CURRENT        LEDGER_MAJOR_VERSION
 #define SUPPORTED_TX_VERSION_PREVIOUS       (LEDGER_MAJOR_VERSION - 1)
 #define SUPPORTED_SPEC_VERSION              (LEDGER_MINOR_VERSION + 0)
-#define SUPPORTED_MINIMUM_SPEC_VERSION      9000
+#define SUPPORTED_MINIMUM_SPEC_VERSION      200
 
-#define COIN_AMOUNT_DECIMAL_PLACES          12
+#define COIN_AMOUNT_DECIMAL_PLACES          9
 
-#define COIN_GENESIS_HASH                   "b0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe"
-#define COIN_NAME                           "Kusama"
-#define COIN_TICKER                         "KSM "
+#define COIN_GENESIS_HASH                   "50dd5d206917bf10502c68fb4d18a59fc8aa31586f4e8856b493e43544aa82aa"
+#define COIN_NAME                           "Elixxir"
+#define COIN_TICKER                         "xx "
 
 #define COIN_SECRET_REQUIRED_CLICKS         10
 

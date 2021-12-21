@@ -15,7 +15,7 @@
  ******************************************************************************* */
 
 import Zemu, {DEFAULT_START_OPTIONS} from '@zondax/zemu'
-import {newKusamaApp} from '@zondax/ledger-substrate'
+import {newElixxirApp} from '@zondax/ledger-substrate'
 import {APP_SEED, models, setKeys, txBasic, txNomination} from './common'
 
 // @ts-ignore
@@ -29,6 +29,9 @@ const defaultOptions = {
   custom: `-s "${APP_SEED}"`,
   X11: false,
 }
+
+const expected_address = '6VyMPt81px3X3ESyQwCjetyPS62ttyJm22fGAnWNkADLbPP2'
+const expected_pk = '1dcca27d1ceeb141bd783eda1fa49b72eb5868c5e3bbd56021a1734000f5bd59'
 
 jest.setTimeout(60000)
 
@@ -60,7 +63,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({...defaultOptions, model: m.name})
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const resp = await app.getVersion()
 
       console.log(resp)
@@ -80,7 +83,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({...defaultOptions, model: m.name})
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
 
       const resp = await app.getAddress(0x80000000, 0x80000000, 0x80000000)
 
@@ -88,9 +91,6 @@ describe('Standard', function () {
 
       expect(resp.return_code).toEqual(0x9000)
       expect(resp.error_message).toEqual('No errors')
-
-      const expected_address = 'JMdbWK5cy3Bm4oCyhWNLQJoC4cczNgJsyk7nLZHMqFT7z7R'
-      const expected_pk = 'ffbc10f71d63e0da1b9e7ee2eb4037466551dc32b9d4641aafd73a65970fae42'
 
       expect(resp.address).toEqual(expected_address)
       expect(resp.pubKey).toEqual(expected_pk)
@@ -103,7 +103,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({...defaultOptions, model: m.name})
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
 
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true)
       // Wait until we are not in the main menu
@@ -118,9 +118,6 @@ describe('Standard', function () {
       expect(resp.return_code).toEqual(0x9000)
       expect(resp.error_message).toEqual('No errors')
 
-      const expected_address = 'JMdbWK5cy3Bm4oCyhWNLQJoC4cczNgJsyk7nLZHMqFT7z7R'
-      const expected_pk = 'ffbc10f71d63e0da1b9e7ee2eb4037466551dc32b9d4641aafd73a65970fae42'
-
       expect(resp.address).toEqual(expected_address)
       expect(resp.pubKey).toEqual(expected_pk)
     } finally {
@@ -132,7 +129,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({...defaultOptions, model: m.name})
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
 
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true)
       // Wait until we are not in the main menu

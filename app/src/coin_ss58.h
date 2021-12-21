@@ -19,7 +19,7 @@
 extern "C" {
 #endif
 
-#define COIN_ADDR_TYPE_ELIXXIR          55
+#define COIN_ADDR_TYPE          55
 
 #ifdef __cplusplus
 }

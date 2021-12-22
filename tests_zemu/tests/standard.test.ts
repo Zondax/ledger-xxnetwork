@@ -151,7 +151,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({...defaultOptions, model: m.name})
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -166,7 +166,7 @@ describe('Standard', function () {
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
 
-      await sim.compareSnapshotsAndAccept('.', `${m.prefix.toLowerCase()}-sign_basic_normal`, 5)
+      await sim.compareSnapshotsAndAccept('.', `${m.prefix.toLowerCase()}-sign_basic_normal`, 6)
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)
@@ -192,7 +192,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({...defaultOptions, model: m.name})
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -213,7 +213,7 @@ describe('Standard', function () {
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
 
-      await sim.compareSnapshotsAndAccept('.', `${m.prefix.toLowerCase()}-sign_basic_expert`, 11)
+      await sim.compareSnapshotsAndAccept('.', `${m.prefix.toLowerCase()}-sign_basic_expert`, 12)
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)
@@ -239,7 +239,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({...defaultOptions, model: m.name})
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -254,7 +254,7 @@ describe('Standard', function () {
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
 
-      await sim.compareSnapshotsAndAccept('.', `${m.prefix.toLowerCase()}-sign_large_nomination`, m.name === 'nanos' ? 8 : 6)
+      await sim.compareSnapshotsAndAccept('.', `${m.prefix.toLowerCase()}-sign_large_nomination`, 4)
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)
@@ -280,7 +280,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({...defaultOptions, model: m.name})
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -295,7 +295,7 @@ describe('Standard', function () {
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
 
-      await sim.compareSnapshotsAndAccept('.', `${m.prefix.toLowerCase()}-set-keys`, m.name === 'nanos' ? 21 : 14)
+      await sim.compareSnapshotsAndAccept('.', `${m.prefix.toLowerCase()}-set-keys`, m.name === 'nanos' ? 12 : 10)
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)

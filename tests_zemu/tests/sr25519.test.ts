@@ -15,7 +15,7 @@
  ******************************************************************************* */
 
 import Zemu, { DEFAULT_START_OPTIONS } from '@zondax/zemu'
-import { newKusamaApp } from '@zondax/ledger-substrate'
+import { newElixxirApp } from '@zondax/ledger-substrate'
 import {APP_SEED, txBasic, txNomination} from './common'
 
 // @ts-ignore
@@ -33,6 +33,9 @@ const defaultOptions = {
   X11: false,
 }
 
+const expected_address = '6Zy3Y7D5ewEarMHSdspnZSjan97HvcC6uczZFas483dgDj8N'
+const expected_pk = 'ce8173da08a8bf2b98f53c34f6f2d3f7739b34aa4f9f7b10569f8e63a965e457'
+
 jest.setTimeout(180000)
 
 beforeAll(async () => {
@@ -44,7 +47,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
 
       const resp = await app.getAddress(0x80000000, 0x80000000, 0x80000000, false, 1)
 
@@ -52,9 +55,6 @@ describe('SR25519', function () {
 
       expect(resp.return_code).toEqual(0x9000)
       expect(resp.error_message).toEqual('No errors')
-
-      const expected_address = 'Cz4vu6J2NHP977ZYZcMCdjmmLgmddKvXRi5TxecuTgFfKww'
-      const expected_pk = '121cc87d316d311fe3e3b9c34b1083a29c55f6ebd214b60f59578b0a37007424'
 
       expect(resp.address).toEqual(expected_address)
       expect(resp.pubKey).toEqual(expected_pk)
@@ -67,7 +67,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions, model: 'nanos' })
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
 
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true, 1)
       // Wait until we are not in the main menu
@@ -81,9 +81,6 @@ describe('SR25519', function () {
       expect(resp.return_code).toEqual(0x9000)
       expect(resp.error_message).toEqual('No errors')
 
-      const expected_address = 'Cz4vu6J2NHP977ZYZcMCdjmmLgmddKvXRi5TxecuTgFfKww'
-      const expected_pk = '121cc87d316d311fe3e3b9c34b1083a29c55f6ebd214b60f59578b0a37007424'
-
       expect(resp.address).toEqual(expected_address)
       expect(resp.pubKey).toEqual(expected_pk)
     } finally {
@@ -95,7 +92,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
 
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true, 1)
       // Wait until we are not in the main menu
@@ -116,7 +113,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -131,7 +128,7 @@ describe('SR25519', function () {
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
 
-      await sim.compareSnapshotsAndAccept('.', 's-sign_basic_normal', 5)
+      await sim.compareSnapshotsAndAccept('.', 's-sign_basic_normal', 6)
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)
@@ -158,7 +155,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -179,7 +176,7 @@ describe('SR25519', function () {
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
 
-      await sim.compareSnapshotsAndAccept('.', 's-sign_basic_expert', 11)
+      await sim.compareSnapshotsAndAccept('.', 's-sign_basic_expert', 12)
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)
@@ -206,7 +203,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -258,7 +255,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newKusamaApp(sim.getTransport())
+      const app = newElixxirApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -273,7 +270,7 @@ describe('SR25519', function () {
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
 
-      await sim.compareSnapshotsAndAccept('.', 's-sign_large_nomination', 8)
+      await sim.compareSnapshotsAndAccept('.', 's-sign_large_nomination', 4)
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)

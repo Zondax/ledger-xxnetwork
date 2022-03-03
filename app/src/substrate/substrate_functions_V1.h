@@ -1,5 +1,5 @@
 /*******************************************************************************
-*  (c) 2019 Zondax GmbH
+*  (c) 2019 - 2022 Zondax GmbH
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ parser_error_t _readKeys_V1(parser_context_t* c, pd_Keys_V1_t* v);
 parser_error_t _readLookupasStaticLookupSource_V1(parser_context_t* c, pd_LookupasStaticLookupSource_V1_t* v);
 parser_error_t _readMemberCount_V1(parser_context_t* c, pd_MemberCount_V1_t* v);
 parser_error_t _readNextConfigDescriptor_V1(parser_context_t* c, pd_NextConfigDescriptor_V1_t* v);
-parser_error_t _readOpaqueCallT_V1(parser_context_t* c, pd_OpaqueCallT_V1_t* v);
+parser_error_t _readOpaqueCall_V1(parser_context_t* c, pd_OpaqueCall_V1_t* v);
 parser_error_t _readOptionAccountId_V1(parser_context_t* c, pd_OptionAccountId_V1_t* v);
 parser_error_t _readOptionElectionScore_V1(parser_context_t* c, pd_OptionElectionScore_V1_t* v);
 parser_error_t _readOptionInstanceId_V1(parser_context_t* c, pd_OptionInstanceId_V1_t* v);
@@ -355,8 +355,8 @@ parser_error_t _toStringNextConfigDescriptor_V1(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
-parser_error_t _toStringOpaqueCallT_V1(
-    const pd_OpaqueCallT_V1_t* v,
+parser_error_t _toStringOpaqueCall_V1(
+    const pd_OpaqueCall_V1_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

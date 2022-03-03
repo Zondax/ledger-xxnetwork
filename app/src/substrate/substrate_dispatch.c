@@ -1,5 +1,5 @@
 /*******************************************************************************
-*  (c) 2019 Zondax GmbH
+*  (c) 2019 - 2022 Zondax GmbH
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ parser_error_t _readMethod(
     case 1:
         return _readMethod_V1(c, moduleIdx, callIdx, &method->V1);
     default:
-        return parser_not_supported;
+        return parser_tx_version_not_supported;
     }
 }
 
@@ -39,7 +39,7 @@ uint8_t _getMethod_NumItems(uint32_t transactionVersion, uint8_t moduleIdx, uint
     case 1:
         return _getMethod_NumItems_V1(moduleIdx, callIdx);
     default:
-        return parser_not_supported;
+        return parser_tx_version_not_supported;
     }
 }
 
@@ -82,7 +82,7 @@ parser_error_t _getMethod_ItemValue(uint32_t transactionVersion, pd_Method_t* m,
         return _getMethod_ItemValue_V1(&m->V1, moduleIdx, callIdx, itemIdx, outValue,
             outValueLen, pageIdx, pageCount);
     default:
-        return parser_not_supported;
+        return parser_tx_version_not_supported;
     }
 }
 

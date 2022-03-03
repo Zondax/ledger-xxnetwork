@@ -1,5 +1,5 @@
 /*******************************************************************************
-*  (c) 2019 Zondax GmbH
+*  (c) 2019 - 2022 Zondax GmbH
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -51,6 +51,7 @@ extern "C" {
 #define PD_CALL_XXCUSTODY_V1 32
 #define PD_CALL_XXBETANETREWARDS_V1 33
 #define PD_CALL_XXPUBLIC_V1 34
+#define PD_CALL_MULTISIG_V1 35
 #define PD_CALL_RECOVERY_V1 36
 #define PD_CALL_ASSETS_V1 37
 #define PD_CALL_UNIQUES_V1 38
@@ -64,18 +65,18 @@ typedef struct {
 #define PD_CALL_STAKING_BOND_V1 0
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t controller;
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
     pd_OptionHash_t cmix_id;
 } pd_staking_bond_V1_t;
 
 #define PD_CALL_STAKING_BOND_EXTRA_V1 1
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_staking_bond_extra_V1_t;
 
 #define PD_CALL_STAKING_UNBOND_V1 2
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_staking_unbond_V1_t;
 
 #define PD_CALL_STAKING_WITHDRAW_UNBONDED_V1 3
@@ -110,7 +111,7 @@ typedef struct {
 
 #define PD_CALL_STAKING_REBOND_V1 18
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_staking_rebond_V1_t;
 
 #define PD_CALL_SESSION_SET_KEYS_V1 0
@@ -133,7 +134,7 @@ typedef struct {
 #define PD_CALL_BALANCES_FORCE_UNRESERVE_V1 5
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t who;
-    pd_Balance_t Amount;
+    pd_Balance_t amount;
 } pd_balances_force_unreserve_V1_t;
 
 #define PD_CALL_STAKING_SET_VALIDATOR_COUNT_V1 8
@@ -203,6 +204,13 @@ typedef struct {
     pd_BlockNumber_t best_finalized_block_number;
 } pd_grandpa_note_stalled_V1_t;
 
+#define PD_CALL_COUNCIL_SET_MEMBERS_V1 0
+typedef struct {
+    pd_VecAccountId_V1_t new_members;
+    pd_OptionAccountId_V1_t prime;
+    pd_MemberCount_V1_t old_count;
+} pd_council_set_members_V1_t;
+
 #define PD_CALL_COUNCIL_VOTE_V1 3
 typedef struct {
     pd_Hash_t proposal;
@@ -253,7 +261,7 @@ typedef struct {
 #define PD_CALL_ELECTIONS_VOTE_V1 0
 typedef struct {
     pd_VecAccountId_V1_t votes;
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_elections_vote_V1_t;
 
 #define PD_CALL_ELECTIONS_REMOVE_VOTER_V1 1
@@ -314,7 +322,7 @@ typedef struct {
 
 #define PD_CALL_TREASURY_PROPOSE_SPEND_V1 0
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
     pd_LookupasStaticLookupSource_V1_t beneficiary;
 } pd_treasury_propose_spend_V1_t;
 
@@ -486,7 +494,7 @@ typedef struct {
 
 #define PD_CALL_BOUNTIES_PROPOSE_BOUNTY_V1 0
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
     pd_Bytes_t description;
 } pd_bounties_propose_bounty_V1_t;
 
@@ -591,7 +599,7 @@ typedef struct {
 #define PD_CALL_SWAP_TRANSFER_V1 1
 typedef struct {
     pd_AccountId_V1_t to;
-    pd_Balance_t Amount;
+    pd_Balance_t amount;
 } pd_swap_transfer_V1_t;
 
 #define PD_CALL_SWAP_SET_SWAP_FEE_V1 2
@@ -621,12 +629,12 @@ typedef struct {
 
 #define PD_CALL_XXECONOMICS_SET_LIQUIDITY_REWARDS_STAKE_V1 2
 typedef struct {
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_xxeconomics_set_liquidity_rewards_stake_V1_t;
 
 #define PD_CALL_XXECONOMICS_SET_LIQUIDITY_REWARDS_BALANCE_V1 3
 typedef struct {
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_xxeconomics_set_liquidity_rewards_balance_V1_t;
 
 #define PD_CALL_XXCUSTODY_PAYOUT_V1 0
@@ -638,13 +646,13 @@ typedef struct {
 typedef struct {
     pd_AccountId_V1_t custody;
     pd_AccountId_V1_t controller;
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_xxcustody_custody_bond_V1_t;
 
 #define PD_CALL_XXCUSTODY_CUSTODY_BOND_EXTRA_V1 2
 typedef struct {
     pd_AccountId_V1_t custody;
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_xxcustody_custody_bond_extra_V1_t;
 
 #define PD_CALL_XXCUSTODY_CUSTODY_SET_CONTROLLER_V1 3
@@ -737,28 +745,28 @@ typedef struct {
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t beneficiary;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_mint_V1_t;
 
 #define PD_CALL_ASSETS_BURN_V1 4
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t who;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_burn_V1_t;
 
 #define PD_CALL_ASSETS_TRANSFER_V1 5
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t target;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_transfer_V1_t;
 
 #define PD_CALL_ASSETS_TRANSFER_KEEP_ALIVE_V1 6
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t target;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_transfer_keep_alive_V1_t;
 
 #define PD_CALL_ASSETS_FORCE_TRANSFER_V1 7
@@ -766,7 +774,7 @@ typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t source;
     pd_LookupasStaticLookupSource_V1_t dest;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_force_transfer_V1_t;
 
 #define PD_CALL_ASSETS_FREEZE_V1 8
@@ -848,7 +856,7 @@ typedef struct {
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t delegate;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_approve_transfer_V1_t;
 
 #define PD_CALL_ASSETS_CANCEL_APPROVAL_V1 20
@@ -869,7 +877,7 @@ typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t owner;
     pd_LookupasStaticLookupSource_V1_t destination;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_transfer_approved_V1_t;
 
 #define PD_CALL_UNIQUES_CREATE_V1 0
@@ -996,6 +1004,7 @@ typedef union {
     pd_staking_kick_V1_t staking_kick_V1;
     pd_staking_chill_other_V1_t staking_chill_other_V1;
     pd_grandpa_note_stalled_V1_t grandpa_note_stalled_V1;
+    pd_council_set_members_V1_t council_set_members_V1;
     pd_council_vote_V1_t council_vote_V1;
     pd_council_close_V1_t council_close_V1;
     pd_council_disapprove_proposal_V1_t council_disapprove_proposal_V1;
@@ -1131,20 +1140,20 @@ typedef union {
 #define PD_CALL_BALANCES_TRANSFER_V1 0
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t dest;
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_balances_transfer_V1_t;
 
 #define PD_CALL_BALANCES_FORCE_TRANSFER_V1 2
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t source;
     pd_LookupasStaticLookupSource_V1_t dest;
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_balances_force_transfer_V1_t;
 
 #define PD_CALL_BALANCES_TRANSFER_KEEP_ALIVE_V1 3
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t dest;
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_balances_transfer_keep_alive_V1_t;
 
 #ifdef SUBSTRATE_PARSER_FULL
@@ -1192,6 +1201,39 @@ typedef struct {
     pd_Call_t call;
 } pd_proxy_proxy_V1_t;
 
+#define PD_CALL_MULTISIG_AS_MULTI_THRESHOLD_1_V1 0
+typedef struct {
+    pd_VecAccountId_V1_t other_signatories;
+    pd_Call_t call;
+} pd_multisig_as_multi_threshold_1_V1_t;
+
+#define PD_CALL_MULTISIG_AS_MULTI_V1 1
+typedef struct {
+    pd_u16_t threshold;
+    pd_VecAccountId_V1_t other_signatories;
+    pd_OptionTimepoint_V1_t maybe_timepoint;
+    pd_OpaqueCall_V1_t call;
+    pd_bool_t store_call;
+    pd_Weight_V1_t max_weight;
+} pd_multisig_as_multi_V1_t;
+
+#define PD_CALL_MULTISIG_APPROVE_AS_MULTI_V1 2
+typedef struct {
+    pd_u16_t threshold;
+    pd_VecAccountId_V1_t other_signatories;
+    pd_OptionTimepoint_V1_t maybe_timepoint;
+    pd_H256_t call_hash;
+    pd_Weight_V1_t max_weight;
+} pd_multisig_approve_as_multi_V1_t;
+
+#define PD_CALL_MULTISIG_CANCEL_AS_MULTI_V1 3
+typedef struct {
+    pd_u16_t threshold;
+    pd_VecAccountId_V1_t other_signatories;
+    pd_Timepoint_V1_t timepoint;
+    pd_H256_t call_hash;
+} pd_multisig_cancel_as_multi_V1_t;
+
 #endif
 
 typedef union {
@@ -1207,6 +1249,10 @@ typedef union {
     pd_system_remark_with_event_V1_t system_remark_with_event_V1;
     pd_balances_set_balance_V1_t balances_set_balance_V1;
     pd_proxy_proxy_V1_t proxy_proxy_V1;
+    pd_multisig_as_multi_threshold_1_V1_t multisig_as_multi_threshold_1_V1;
+    pd_multisig_as_multi_V1_t multisig_as_multi_V1;
+    pd_multisig_approve_as_multi_V1_t multisig_approve_as_multi_V1;
+    pd_multisig_cancel_as_multi_V1_t multisig_cancel_as_multi_V1;
 #endif
 } pd_MethodNested_V1_t;
 

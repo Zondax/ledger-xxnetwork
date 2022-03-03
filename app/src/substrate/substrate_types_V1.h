@@ -1,5 +1,5 @@
 /*******************************************************************************
-*  (c) 2019 Zondax GmbH
+*  (c) 2019 - 2022 Zondax GmbH
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -125,6 +125,16 @@ typedef struct {
 } pd_schedulePeriodBlockNumber_V1_t;
 
 typedef struct {
+    pd_Compactu32_t accounts;
+    pd_Compactu32_t sufficients;
+    pd_Compactu32_t approvals;
+} pd_DestroyWitness_V1_t;
+
+typedef struct {
+    pd_Call_t call;
+} pd_OpaqueCall_V1_t;
+
+typedef struct {
     uint8_t some;
     pd_LookupasStaticLookupSource_V1_t contained;
 } pd_OptionLookupasStaticLookupSource_V1_t;
@@ -230,11 +240,6 @@ typedef struct {
 } pd_DepositNonce_V1_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_DestroyWitness_V1_t;
-
-typedef struct {
     const uint8_t* _ptr;
 } pd_EcdsaSignature_V1_t;
 
@@ -278,11 +283,6 @@ typedef struct {
     // TODO: Not implemented
     uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
 } pd_NextConfigDescriptor_V1_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_OpaqueCallT_V1_t;
 
 typedef struct {
     uint8_t some;

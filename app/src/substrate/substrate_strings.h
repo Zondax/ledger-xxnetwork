@@ -1,5 +1,5 @@
 /*******************************************************************************
-*  (c) 2021 Zondax GmbH
+*  (c) 2019 - 2022 Zondax GmbH
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -299,7 +299,7 @@ static const char* STR_IT_prefix = "Prefix";
 static const char* STR_IT_subkeys = "Subkeys";
 static const char* STR_IT_now = "Now";
 static const char* STR_IT_dest = "Dest";
-static const char* STR_IT_amount = "amount";
+static const char* STR_IT_amount = "Amount";
 static const char* STR_IT_who = "Who";
 static const char* STR_IT_new_free = "New free";
 static const char* STR_IT_new_reserved = "New reserved";

@@ -1,5 +1,5 @@
 /*******************************************************************************
-*  (c) 2019 Zondax GmbH
+*  (c) 2019 - 2022 Zondax GmbH
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -109,13 +109,11 @@ parser_error_t _readCompactPerBill_V1(parser_context_t* c, pd_CompactPerBill_V1_
 
 parser_error_t _readConviction_V1(parser_context_t* c, pd_Conviction_V1_t* v)
 {
-    CHECK_INPUT()
-
+    CHECK_INPUT();
     CHECK_ERROR(_readUInt8(c, &v->value))
     if (v->value > 5) {
         return parser_value_out_of_range;
     }
-
     return parser_ok;
 }
 
@@ -126,7 +124,10 @@ parser_error_t _readDepositNonce_V1(parser_context_t* c, pd_DepositNonce_V1_t* v
 
 parser_error_t _readDestroyWitness_V1(parser_context_t* c, pd_DestroyWitness_V1_t* v)
 {
-    return parser_not_supported;
+    CHECK_ERROR(_readCompactu32(c, &v->accounts))
+    CHECK_ERROR(_readCompactu32(c, &v->sufficients))
+    CHECK_ERROR(_readCompactu32(c, &v->approvals))
+    return parser_ok;
 }
 
 parser_error_t _readEcdsaSignature_V1(parser_context_t* c, pd_EcdsaSignature_V1_t* v) {
@@ -140,7 +141,9 @@ parser_error_t _readElectionScore_V1(parser_context_t* c, pd_ElectionScore_V1_t*
 
 parser_error_t _readEraIndex_V1(parser_context_t* c, pd_EraIndex_V1_t* v)
 {
-    return _readUInt32(c, &v->value);
+    CHECK_INPUT();
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readEthereumAddress_V1(parser_context_t* c, pd_EthereumAddress_V1_t* v) {
@@ -200,8 +203,10 @@ parser_error_t _readLookupasStaticLookupSource_V1(parser_context_t* c, pd_Lookup
         break;
     case 3: // Address32
         GEN_DEF_READARRAY(32)
+        break;
     case 4: // Address20
         GEN_DEF_READARRAY(20)
+        break;
     default:
         return parser_unexpected_value;
     }
@@ -211,7 +216,9 @@ parser_error_t _readLookupasStaticLookupSource_V1(parser_context_t* c, pd_Lookup
 
 parser_error_t _readMemberCount_V1(parser_context_t* c, pd_MemberCount_V1_t* v)
 {
-    return _readUInt32(c, &v->value);
+    CHECK_INPUT();
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readNextConfigDescriptor_V1(parser_context_t* c, pd_NextConfigDescriptor_V1_t* v)
@@ -219,14 +226,19 @@ parser_error_t _readNextConfigDescriptor_V1(parser_context_t* c, pd_NextConfigDe
     return parser_not_supported;
 }
 
-parser_error_t _readOpaqueCallT_V1(parser_context_t* c, pd_OpaqueCallT_V1_t* v)
+parser_error_t _readOpaqueCall_V1(parser_context_t* c, pd_OpaqueCall_V1_t* v)
 {
-    return parser_not_supported;
+    // Encoded as Byte[], array size comes first
+    uint8_t size;
+    CHECK_ERROR(_readUInt8(c, &size))
+    return _readCall(c, &v->call);
 }
 
 parser_error_t _readPerbill_V1(parser_context_t* c, pd_Perbill_V1_t* v)
 {
-    return _readUInt32(c, &v->value);
+    CHECK_INPUT();
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readPercent_V1(parser_context_t* c, pd_Percent_V1_t* v)
@@ -236,24 +248,26 @@ parser_error_t _readPercent_V1(parser_context_t* c, pd_Percent_V1_t* v)
 
 parser_error_t _readProxyType_V1(parser_context_t* c, pd_ProxyType_V1_t* v)
 {
-    CHECK_INPUT()
-
+    CHECK_INPUT();
     CHECK_ERROR(_readUInt8(c, &v->value))
     if (v->value > 3) {
         return parser_value_out_of_range;
     }
-
     return parser_ok;
 }
 
 parser_error_t _readReferendumIndex_V1(parser_context_t* c, pd_ReferendumIndex_V1_t* v)
 {
-    return _readUInt32(c, &v->value);
+    CHECK_INPUT();
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readRegistrarIndex_V1(parser_context_t* c, pd_RegistrarIndex_V1_t* v)
 {
-    return _readUInt32(c, &v->value);
+    CHECK_INPUT();
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readRenouncing_V1(parser_context_t* c, pd_Renouncing_V1_t* v)
@@ -325,7 +339,9 @@ parser_error_t _readVestingInfoBalanceOfTBlockNumber_V1(parser_context_t* c, pd_
 
 parser_error_t _readWeight_V1(parser_context_t* c, pd_Weight_V1_t* v)
 {
-    return _readUInt64(c, &v->value);
+    CHECK_INPUT();
+    CHECK_ERROR(_readUInt64(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readchainbridgeChainId_V1(parser_context_t* c, pd_chainbridgeChainId_V1_t* v)
@@ -744,7 +760,40 @@ parser_error_t _toStringDestroyWitness_V1(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+
+    // First measure number of pages
+    uint8_t pages[3];
+    CHECK_ERROR(_toStringCompactu32(&v->accounts, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringCompactu32(&v->sufficients, outValue, outValueLen, 0, &pages[1]))
+    CHECK_ERROR(_toStringCompactu32(&v->approvals, outValue, outValueLen, 0, &pages[2]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringCompactu32(&v->accounts, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringCompactu32(&v->sufficients, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+    pageIdx -= pages[1];
+
+    if (pageIdx < pages[2]) {
+        CHECK_ERROR(_toStringCompactu32(&v->approvals, outValue, outValueLen, pageIdx, &pages[2]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringEcdsaSignature_V1(
@@ -928,15 +977,14 @@ parser_error_t _toStringNextConfigDescriptor_V1(
     return parser_print_not_supported;
 }
 
-parser_error_t _toStringOpaqueCallT_V1(
-    const pd_OpaqueCallT_V1_t* v,
+parser_error_t _toStringOpaqueCall_V1(
+    const pd_OpaqueCall_V1_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    return _toStringCall(&v->call, outValue, outValueLen, pageIdx, pageCount);
 }
 
 parser_error_t _toStringPerbill_V1(
@@ -1087,12 +1135,16 @@ parser_error_t _toStringTimepoint_V1(
 {
     CLEAN_AND_CHECK()
 
-    // Index + count pages
+    // First measure number of pages
     uint8_t pages[2];
     CHECK_ERROR(_toStringBlockNumber(&v->height, outValue, outValueLen, 0, &pages[0]))
     CHECK_ERROR(_toStringu32(&v->index, outValue, outValueLen, 0, &pages[1]))
 
-    *pageCount = pages[0] + pages[1];
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
     if (pageIdx > *pageCount) {
         return parser_display_idx_out_of_range;
     }
@@ -1103,7 +1155,6 @@ parser_error_t _toStringTimepoint_V1(
     }
     pageIdx -= pages[0];
 
-    //////
     if (pageIdx < pages[1]) {
         CHECK_ERROR(_toStringu32(&v->index, outValue, outValueLen, pageIdx, &pages[1]))
         return parser_ok;
@@ -1141,12 +1192,18 @@ parser_error_t _toStringTupleAccountIdu32_V1(
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    // Get all pages first
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
     uint8_t pages[2];
     CHECK_ERROR(_toStringAccountId_V1(&v->accountId, outValue, outValueLen, 0, &pages[0]))
     CHECK_ERROR(_toStringu32(&v->num, outValue, outValueLen, 0, &pages[1]))
 
-    *pageCount = pages[0] + pages[1];
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
     if (pageIdx > *pageCount) {
         return parser_display_idx_out_of_range;
     }
@@ -1185,6 +1242,7 @@ parser_error_t _toStringValidatorPrefs_V1(
 {
     CLEAN_AND_CHECK()
 
+    // First measure number of pages
     uint8_t pages[2];
     CHECK_ERROR(_toStringCompactPerBill_V1(&v->commission, outValue, outValueLen, 0, &pages[0]))
     CHECK_ERROR(_toStringbool(&v->blocked, outValue, outValueLen, 0, &pages[1]))

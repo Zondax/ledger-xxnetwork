@@ -1,5 +1,5 @@
 /*******************************************************************************
-*  (c) 2019 Zondax GmbH
+*  (c) 2019 - 2022 Zondax GmbH
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -64,18 +64,18 @@ typedef struct {
 #define PD_CALL_STAKING_BOND_V1 0
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t controller;
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
     pd_OptionHash_t cmix_id;
 } pd_staking_bond_V1_t;
 
 #define PD_CALL_STAKING_BOND_EXTRA_V1 1
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_staking_bond_extra_V1_t;
 
 #define PD_CALL_STAKING_UNBOND_V1 2
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_staking_unbond_V1_t;
 
 #define PD_CALL_STAKING_WITHDRAW_UNBONDED_V1 3
@@ -110,7 +110,7 @@ typedef struct {
 
 #define PD_CALL_STAKING_REBOND_V1 18
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_staking_rebond_V1_t;
 
 #define PD_CALL_SESSION_SET_KEYS_V1 0
@@ -133,7 +133,7 @@ typedef struct {
 #define PD_CALL_BALANCES_FORCE_UNRESERVE_V1 5
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t who;
-    pd_Balance_t Amount;
+    pd_Balance_t amount;
 } pd_balances_force_unreserve_V1_t;
 
 #define PD_CALL_STAKING_SET_VALIDATOR_COUNT_V1 8
@@ -253,7 +253,7 @@ typedef struct {
 #define PD_CALL_ELECTIONS_VOTE_V1 0
 typedef struct {
     pd_VecAccountId_V1_t votes;
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_elections_vote_V1_t;
 
 #define PD_CALL_ELECTIONS_REMOVE_VOTER_V1 1
@@ -314,7 +314,7 @@ typedef struct {
 
 #define PD_CALL_TREASURY_PROPOSE_SPEND_V1 0
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
     pd_LookupasStaticLookupSource_V1_t beneficiary;
 } pd_treasury_propose_spend_V1_t;
 
@@ -486,7 +486,7 @@ typedef struct {
 
 #define PD_CALL_BOUNTIES_PROPOSE_BOUNTY_V1 0
 typedef struct {
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
     pd_Bytes_t description;
 } pd_bounties_propose_bounty_V1_t;
 
@@ -591,7 +591,7 @@ typedef struct {
 #define PD_CALL_SWAP_TRANSFER_V1 1
 typedef struct {
     pd_AccountId_V1_t to;
-    pd_Balance_t Amount;
+    pd_Balance_t amount;
 } pd_swap_transfer_V1_t;
 
 #define PD_CALL_SWAP_SET_SWAP_FEE_V1 2
@@ -621,12 +621,12 @@ typedef struct {
 
 #define PD_CALL_XXECONOMICS_SET_LIQUIDITY_REWARDS_STAKE_V1 2
 typedef struct {
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_xxeconomics_set_liquidity_rewards_stake_V1_t;
 
 #define PD_CALL_XXECONOMICS_SET_LIQUIDITY_REWARDS_BALANCE_V1 3
 typedef struct {
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_xxeconomics_set_liquidity_rewards_balance_V1_t;
 
 #define PD_CALL_XXCUSTODY_PAYOUT_V1 0
@@ -638,13 +638,13 @@ typedef struct {
 typedef struct {
     pd_AccountId_V1_t custody;
     pd_AccountId_V1_t controller;
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_xxcustody_custody_bond_V1_t;
 
 #define PD_CALL_XXCUSTODY_CUSTODY_BOND_EXTRA_V1 2
 typedef struct {
     pd_AccountId_V1_t custody;
-    pd_Compactu128_t Amount;
+    pd_Compactu128_t amount;
 } pd_xxcustody_custody_bond_extra_V1_t;
 
 #define PD_CALL_XXCUSTODY_CUSTODY_SET_CONTROLLER_V1 3
@@ -737,28 +737,28 @@ typedef struct {
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t beneficiary;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_mint_V1_t;
 
 #define PD_CALL_ASSETS_BURN_V1 4
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t who;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_burn_V1_t;
 
 #define PD_CALL_ASSETS_TRANSFER_V1 5
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t target;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_transfer_V1_t;
 
 #define PD_CALL_ASSETS_TRANSFER_KEEP_ALIVE_V1 6
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t target;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_transfer_keep_alive_V1_t;
 
 #define PD_CALL_ASSETS_FORCE_TRANSFER_V1 7
@@ -766,7 +766,7 @@ typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t source;
     pd_LookupasStaticLookupSource_V1_t dest;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_force_transfer_V1_t;
 
 #define PD_CALL_ASSETS_FREEZE_V1 8
@@ -848,7 +848,7 @@ typedef struct {
 typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t delegate;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_approve_transfer_V1_t;
 
 #define PD_CALL_ASSETS_CANCEL_APPROVAL_V1 20
@@ -869,7 +869,7 @@ typedef struct {
     pd_Compactu32_t id;
     pd_LookupasStaticLookupSource_V1_t owner;
     pd_LookupasStaticLookupSource_V1_t destination;
-    pd_Compactu64_t Amount;
+    pd_Compactu64_t amount;
 } pd_assets_transfer_approved_V1_t;
 
 #define PD_CALL_UNIQUES_CREATE_V1 0
@@ -1131,20 +1131,20 @@ typedef union {
 #define PD_CALL_BALANCES_TRANSFER_V1 0
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t dest;
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_balances_transfer_V1_t;
 
 #define PD_CALL_BALANCES_FORCE_TRANSFER_V1 2
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t source;
     pd_LookupasStaticLookupSource_V1_t dest;
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_balances_force_transfer_V1_t;
 
 #define PD_CALL_BALANCES_TRANSFER_KEEP_ALIVE_V1 3
 typedef struct {
     pd_LookupasStaticLookupSource_V1_t dest;
-    pd_CompactBalance_t Amount;
+    pd_CompactBalance_t amount;
 } pd_balances_transfer_keep_alive_V1_t;
 
 #ifdef SUBSTRATE_PARSER_FULL

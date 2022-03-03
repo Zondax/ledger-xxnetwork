@@ -298,6 +298,15 @@ __Z_INLINE parser_error_t _readMethod_grandpa_note_stalled_V1(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_council_set_members_V1(
+    parser_context_t* c, pd_council_set_members_V1_t* m)
+{
+    CHECK_ERROR(_readVecAccountId_V1(c, &m->new_members))
+    CHECK_ERROR(_readOptionAccountId_V1(c, &m->prime))
+    CHECK_ERROR(_readMemberCount_V1(c, &m->old_count))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_council_vote_V1(
     parser_context_t* c, pd_council_vote_V1_t* m)
 {
@@ -1495,6 +1504,9 @@ parser_error_t _readMethod_V1(
     case 2562: /* module 10 call 2 */
         CHECK_ERROR(_readMethod_grandpa_note_stalled_V1(c, &method->basic.grandpa_note_stalled_V1))
         break;
+    case 3584: /* module 14 call 0 */
+        CHECK_ERROR(_readMethod_council_set_members_V1(c, &method->basic.council_set_members_V1))
+        break;
     case 3587: /* module 14 call 3 */
         CHECK_ERROR(_readMethod_council_vote_V1(c, &method->basic.council_vote_V1))
         break;
@@ -2604,6 +2616,8 @@ uint8_t _getMethod_NumItems_V1(uint8_t moduleIdx, uint8_t callIdx)
         return 1;
     case 2562: /* module 10 call 2 */
         return 2;
+    case 3584: /* module 14 call 0 */
+        return 3;
     case 3587: /* module 14 call 3 */
         return 3;
     case 3588: /* module 14 call 4 */
@@ -3173,6 +3187,17 @@ const char* _getMethod_ItemName_V1(uint8_t moduleIdx, uint8_t callIdx, uint8_t i
             return STR_IT_delay;
         case 1:
             return STR_IT_best_finalized_block_number;
+        default:
+            return NULL;
+        }
+    case 3584: /* module 14 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_new_members;
+        case 1:
+            return STR_IT_prime;
+        case 2:
+            return STR_IT_old_count;
         default:
             return NULL;
         }
@@ -4829,6 +4854,26 @@ parser_error_t _getMethod_ItemValue_V1(
         case 1: /* grandpa_note_stalled_V1 - best_finalized_block_number */;
             return _toStringBlockNumber(
                 &m->basic.grandpa_note_stalled_V1.best_finalized_block_number,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 3584: /* module 14 call 0 */
+        switch (itemIdx) {
+        case 0: /* council_set_members_V1 - new_members */;
+            return _toStringVecAccountId_V1(
+                &m->basic.council_set_members_V1.new_members,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* council_set_members_V1 - prime */;
+            return _toStringOptionAccountId_V1(
+                &m->basic.council_set_members_V1.prime,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* council_set_members_V1 - old_count */;
+            return _toStringMemberCount_V1(
+                &m->basic.council_set_members_V1.old_count,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -6902,6 +6947,7 @@ bool _getMethod_IsNestingSupported_V1(uint8_t moduleIdx, uint8_t callIdx)
     case 2304: // Session:Set keys
     case 2305: // Session:Purge keys
     case 2562: // Grandpa:Note stalled
+    case 3584: // Council:Set members
     case 3587: // Council:Vote
     case 3588: // Council:Close
     case 3589: // Council:Disapprove proposal

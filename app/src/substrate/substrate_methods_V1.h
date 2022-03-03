@@ -204,6 +204,13 @@ typedef struct {
     pd_BlockNumber_t best_finalized_block_number;
 } pd_grandpa_note_stalled_V1_t;
 
+#define PD_CALL_COUNCIL_SET_MEMBERS_V1 0
+typedef struct {
+    pd_VecAccountId_V1_t new_members;
+    pd_OptionAccountId_V1_t prime;
+    pd_MemberCount_V1_t old_count;
+} pd_council_set_members_V1_t;
+
 #define PD_CALL_COUNCIL_VOTE_V1 3
 typedef struct {
     pd_Hash_t proposal;
@@ -997,6 +1004,7 @@ typedef union {
     pd_staking_kick_V1_t staking_kick_V1;
     pd_staking_chill_other_V1_t staking_chill_other_V1;
     pd_grandpa_note_stalled_V1_t grandpa_note_stalled_V1;
+    pd_council_set_members_V1_t council_set_members_V1;
     pd_council_vote_V1_t council_vote_V1;
     pd_council_close_V1_t council_close_V1;
     pd_council_disapprove_proposal_V1_t council_disapprove_proposal_V1;

@@ -16,10 +16,11 @@
 
 import Zemu, { DEFAULT_START_OPTIONS } from '@zondax/zemu'
 import { newElixxirApp } from '@zondax/ledger-substrate'
-import {APP_SEED, txBasic, txNomination} from './common'
+import {APP_SEED} from './common'
 
 // @ts-ignore
 import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs'
+import { txBalances_transfer, txStaking_nominate } from './zemu_blobs'
 
 const addon = require('../../tests_tools/neon/native')
 
@@ -72,8 +73,7 @@ describe('SR25519', function () {
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true, 1)
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-
-      await sim.compareSnapshotsAndAccept('.', 's-show_address_sr25519', 2)
+      await sim.compareSnapshotsAndApprove('.', 's-show_address_sr25519')
 
       const resp = await respRequest
       console.log(resp)
@@ -97,7 +97,7 @@ describe('SR25519', function () {
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true, 1)
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-      await sim.compareSnapshotsAndAccept('.', 's-show_address_reject_sr25519', 3, 2)
+      await sim.navigateAndCompareUntilText('.', 's-show_address_reject_sr25519', 'REJECT')
 
       const resp = await respRequest
       console.log(resp)
@@ -118,7 +118,7 @@ describe('SR25519', function () {
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
 
-      const txBlob = Buffer.from(txBasic, 'hex')
+      const txBlob = Buffer.from(txBalances_transfer, 'hex')
 
       const responseAddr = await app.getAddress(pathAccount, pathChange, pathIndex, false, 1)
       const pubKey = Buffer.from(responseAddr.pubKey, 'hex')
@@ -127,8 +127,7 @@ describe('SR25519', function () {
       const signatureRequest = app.sign(pathAccount, pathChange, pathIndex, txBlob, 1)
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-
-      await sim.compareSnapshotsAndAccept('.', 's-sign_basic_normal', 6)
+      await sim.compareSnapshotsAndApprove('.', 's-sign_basic_normal')
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)
@@ -165,7 +164,7 @@ describe('SR25519', function () {
       await sim.clickBoth()
       await sim.clickLeft()
 
-      const txBlob = Buffer.from(txBasic, 'hex')
+      const txBlob = Buffer.from(txBalances_transfer, 'hex')
 
       const responseAddr = await app.getAddress(pathAccount, pathChange, pathIndex, false, 1)
       const pubKey = Buffer.from(responseAddr.pubKey, 'hex')
@@ -175,8 +174,7 @@ describe('SR25519', function () {
 
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-
-      await sim.compareSnapshotsAndAccept('.', 's-sign_basic_expert', 12)
+      await sim.compareSnapshotsAndApprove('.', 's-sign_basic_expert')
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)
@@ -213,7 +211,7 @@ describe('SR25519', function () {
       await sim.clickBoth()
       await sim.clickLeft()
 
-      const txBlob = Buffer.from(txBasic, 'hex')
+      const txBlob = Buffer.from(txBalances_transfer, 'hex')
 
       const responseAddr = await app.getAddress(pathAccount, pathChange, pathIndex, false, 1)
       const pubKey = Buffer.from(responseAddr.pubKey, 'hex')
@@ -260,7 +258,7 @@ describe('SR25519', function () {
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
 
-      const txBlob = Buffer.from(txNomination, 'hex')
+      const txBlob = Buffer.from(txStaking_nominate, 'hex')
 
       const responseAddr = await app.getAddress(pathAccount, pathChange, pathIndex, false, 1)
       const pubKey = Buffer.from(responseAddr.pubKey, 'hex')
@@ -269,8 +267,7 @@ describe('SR25519', function () {
       const signatureRequest = app.sign(pathAccount, pathChange, pathIndex, txBlob, 1)
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-
-      await sim.compareSnapshotsAndAccept('.', 's-sign_large_nomination', 4)
+      await sim.compareSnapshotsAndApprove('.', 's-sign_large_nomination')
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)

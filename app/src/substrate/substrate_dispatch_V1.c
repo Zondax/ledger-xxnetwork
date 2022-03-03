@@ -967,6 +967,47 @@ __Z_INLINE parser_error_t _readMethod_xxpublic_set_testnet_manager_account_V1(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_multisig_as_multi_threshold_1_V1(
+    parser_context_t* c, pd_multisig_as_multi_threshold_1_V1_t* m)
+{
+    CHECK_ERROR(_readVecAccountId_V1(c, &m->other_signatories))
+    CHECK_ERROR(_readCall(c, &m->call))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_multisig_as_multi_V1(
+    parser_context_t* c, pd_multisig_as_multi_V1_t* m)
+{
+    CHECK_ERROR(_readu16(c, &m->threshold))
+    CHECK_ERROR(_readVecAccountId_V1(c, &m->other_signatories))
+    CHECK_ERROR(_readOptionTimepoint_V1(c, &m->maybe_timepoint))
+    CHECK_ERROR(_readOpaqueCall_V1(c, &m->call))
+    CHECK_ERROR(_readbool(c, &m->store_call))
+    CHECK_ERROR(_readWeight_V1(c, &m->max_weight))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_multisig_approve_as_multi_V1(
+    parser_context_t* c, pd_multisig_approve_as_multi_V1_t* m)
+{
+    CHECK_ERROR(_readu16(c, &m->threshold))
+    CHECK_ERROR(_readVecAccountId_V1(c, &m->other_signatories))
+    CHECK_ERROR(_readOptionTimepoint_V1(c, &m->maybe_timepoint))
+    CHECK_ERROR(_readH256(c, &m->call_hash))
+    CHECK_ERROR(_readWeight_V1(c, &m->max_weight))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_multisig_cancel_as_multi_V1(
+    parser_context_t* c, pd_multisig_cancel_as_multi_V1_t* m)
+{
+    CHECK_ERROR(_readu16(c, &m->threshold))
+    CHECK_ERROR(_readVecAccountId_V1(c, &m->other_signatories))
+    CHECK_ERROR(_readTimepoint_V1(c, &m->timepoint))
+    CHECK_ERROR(_readH256(c, &m->call_hash))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_recovery_set_recovered_V1(
     parser_context_t* c, pd_recovery_set_recovered_V1_t* m)
 {
@@ -1718,6 +1759,18 @@ parser_error_t _readMethod_V1(
     case 8704: /* module 34 call 0 */
         CHECK_ERROR(_readMethod_xxpublic_set_testnet_manager_account_V1(c, &method->basic.xxpublic_set_testnet_manager_account_V1))
         break;
+    case 8960: /* module 35 call 0 */
+        CHECK_ERROR(_readMethod_multisig_as_multi_threshold_1_V1(c, &method->nested.multisig_as_multi_threshold_1_V1))
+        break;
+    case 8961: /* module 35 call 1 */
+        CHECK_ERROR(_readMethod_multisig_as_multi_V1(c, &method->nested.multisig_as_multi_V1))
+        break;
+    case 8962: /* module 35 call 2 */
+        CHECK_ERROR(_readMethod_multisig_approve_as_multi_V1(c, &method->nested.multisig_approve_as_multi_V1))
+        break;
+    case 8963: /* module 35 call 3 */
+        CHECK_ERROR(_readMethod_multisig_cancel_as_multi_V1(c, &method->nested.multisig_cancel_as_multi_V1))
+        break;
     case 9217: /* module 36 call 1 */
         CHECK_ERROR(_readMethod_recovery_set_recovered_V1(c, &method->basic.recovery_set_recovered_V1))
         break;
@@ -1911,6 +1964,8 @@ const char* _getMethod_ModuleName_V1(uint8_t moduleIdx)
         return STR_MO_XXBETANETREWARDS;
     case 34:
         return STR_MO_XXPUBLIC;
+    case 35:
+        return STR_MO_MULTISIG;
     case 36:
         return STR_MO_RECOVERY;
     case 37:
@@ -2725,6 +2780,14 @@ uint8_t _getMethod_NumItems_V1(uint8_t moduleIdx, uint8_t callIdx)
         return 0;
     case 8704: /* module 34 call 0 */
         return 1;
+    case 8960: /* module 35 call 0 */
+        return 2;
+    case 8961: /* module 35 call 1 */
+        return 6;
+    case 8962: /* module 35 call 2 */
+        return 5;
+    case 8963: /* module 35 call 3 */
+        return 4;
     case 9217: /* module 36 call 1 */
         return 2;
     case 9219: /* module 36 call 3 */
@@ -3832,6 +3895,60 @@ const char* _getMethod_ItemName_V1(uint8_t moduleIdx, uint8_t callIdx, uint8_t i
         switch (itemIdx) {
         case 0:
             return STR_IT_who;
+        default:
+            return NULL;
+        }
+    case 8960: /* module 35 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_other_signatories;
+        case 1:
+            return STR_IT_call;
+        default:
+            return NULL;
+        }
+    case 8961: /* module 35 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_threshold;
+        case 1:
+            return STR_IT_other_signatories;
+        case 2:
+            return STR_IT_maybe_timepoint;
+        case 3:
+            return STR_IT_call;
+        case 4:
+            return STR_IT_store_call;
+        case 5:
+            return STR_IT_max_weight;
+        default:
+            return NULL;
+        }
+    case 8962: /* module 35 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_threshold;
+        case 1:
+            return STR_IT_other_signatories;
+        case 2:
+            return STR_IT_maybe_timepoint;
+        case 3:
+            return STR_IT_call_hash;
+        case 4:
+            return STR_IT_max_weight;
+        default:
+            return NULL;
+        }
+    case 8963: /* module 35 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_threshold;
+        case 1:
+            return STR_IT_other_signatories;
+        case 2:
+            return STR_IT_timepoint;
+        case 3:
+            return STR_IT_call_hash;
         default:
             return NULL;
         }
@@ -5857,6 +5974,111 @@ parser_error_t _getMethod_ItemValue_V1(
         case 0: /* xxpublic_set_testnet_manager_account_V1 - who */;
             return _toStringAccountId_V1(
                 &m->basic.xxpublic_set_testnet_manager_account_V1.who,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 8960: /* module 35 call 0 */
+        switch (itemIdx) {
+        case 0: /* multisig_as_multi_threshold_1_V1 - other_signatories */;
+            return _toStringVecAccountId_V1(
+                &m->nested.multisig_as_multi_threshold_1_V1.other_signatories,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* multisig_as_multi_threshold_1_V1 - call */;
+            return _toStringCall(
+                &m->nested.multisig_as_multi_threshold_1_V1.call,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 8961: /* module 35 call 1 */
+        switch (itemIdx) {
+        case 0: /* multisig_as_multi_V1 - threshold */;
+            return _toStringu16(
+                &m->nested.multisig_as_multi_V1.threshold,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* multisig_as_multi_V1 - other_signatories */;
+            return _toStringVecAccountId_V1(
+                &m->nested.multisig_as_multi_V1.other_signatories,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* multisig_as_multi_V1 - maybe_timepoint */;
+            return _toStringOptionTimepoint_V1(
+                &m->nested.multisig_as_multi_V1.maybe_timepoint,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* multisig_as_multi_V1 - call */;
+            return _toStringOpaqueCall_V1(
+                &m->nested.multisig_as_multi_V1.call,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* multisig_as_multi_V1 - store_call */;
+            return _toStringbool(
+                &m->nested.multisig_as_multi_V1.store_call,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* multisig_as_multi_V1 - max_weight */;
+            return _toStringWeight_V1(
+                &m->nested.multisig_as_multi_V1.max_weight,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 8962: /* module 35 call 2 */
+        switch (itemIdx) {
+        case 0: /* multisig_approve_as_multi_V1 - threshold */;
+            return _toStringu16(
+                &m->nested.multisig_approve_as_multi_V1.threshold,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* multisig_approve_as_multi_V1 - other_signatories */;
+            return _toStringVecAccountId_V1(
+                &m->nested.multisig_approve_as_multi_V1.other_signatories,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* multisig_approve_as_multi_V1 - maybe_timepoint */;
+            return _toStringOptionTimepoint_V1(
+                &m->nested.multisig_approve_as_multi_V1.maybe_timepoint,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* multisig_approve_as_multi_V1 - call_hash */;
+            return _toStringH256(
+                &m->nested.multisig_approve_as_multi_V1.call_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* multisig_approve_as_multi_V1 - max_weight */;
+            return _toStringWeight_V1(
+                &m->nested.multisig_approve_as_multi_V1.max_weight,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 8963: /* module 35 call 3 */
+        switch (itemIdx) {
+        case 0: /* multisig_cancel_as_multi_V1 - threshold */;
+            return _toStringu16(
+                &m->nested.multisig_cancel_as_multi_V1.threshold,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* multisig_cancel_as_multi_V1 - other_signatories */;
+            return _toStringVecAccountId_V1(
+                &m->nested.multisig_cancel_as_multi_V1.other_signatories,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* multisig_cancel_as_multi_V1 - timepoint */;
+            return _toStringTimepoint_V1(
+                &m->nested.multisig_cancel_as_multi_V1.timepoint,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* multisig_cancel_as_multi_V1 - call_hash */;
+            return _toStringH256(
+                &m->nested.multisig_cancel_as_multi_V1.call_hash,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:

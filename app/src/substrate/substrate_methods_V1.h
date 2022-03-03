@@ -51,6 +51,7 @@ extern "C" {
 #define PD_CALL_XXCUSTODY_V1 32
 #define PD_CALL_XXBETANETREWARDS_V1 33
 #define PD_CALL_XXPUBLIC_V1 34
+#define PD_CALL_MULTISIG_V1 35
 #define PD_CALL_RECOVERY_V1 36
 #define PD_CALL_ASSETS_V1 37
 #define PD_CALL_UNIQUES_V1 38
@@ -1192,6 +1193,39 @@ typedef struct {
     pd_Call_t call;
 } pd_proxy_proxy_V1_t;
 
+#define PD_CALL_MULTISIG_AS_MULTI_THRESHOLD_1_V1 0
+typedef struct {
+    pd_VecAccountId_V1_t other_signatories;
+    pd_Call_t call;
+} pd_multisig_as_multi_threshold_1_V1_t;
+
+#define PD_CALL_MULTISIG_AS_MULTI_V1 1
+typedef struct {
+    pd_u16_t threshold;
+    pd_VecAccountId_V1_t other_signatories;
+    pd_OptionTimepoint_V1_t maybe_timepoint;
+    pd_OpaqueCall_V1_t call;
+    pd_bool_t store_call;
+    pd_Weight_V1_t max_weight;
+} pd_multisig_as_multi_V1_t;
+
+#define PD_CALL_MULTISIG_APPROVE_AS_MULTI_V1 2
+typedef struct {
+    pd_u16_t threshold;
+    pd_VecAccountId_V1_t other_signatories;
+    pd_OptionTimepoint_V1_t maybe_timepoint;
+    pd_H256_t call_hash;
+    pd_Weight_V1_t max_weight;
+} pd_multisig_approve_as_multi_V1_t;
+
+#define PD_CALL_MULTISIG_CANCEL_AS_MULTI_V1 3
+typedef struct {
+    pd_u16_t threshold;
+    pd_VecAccountId_V1_t other_signatories;
+    pd_Timepoint_V1_t timepoint;
+    pd_H256_t call_hash;
+} pd_multisig_cancel_as_multi_V1_t;
+
 #endif
 
 typedef union {
@@ -1207,6 +1241,10 @@ typedef union {
     pd_system_remark_with_event_V1_t system_remark_with_event_V1;
     pd_balances_set_balance_V1_t balances_set_balance_V1;
     pd_proxy_proxy_V1_t proxy_proxy_V1;
+    pd_multisig_as_multi_threshold_1_V1_t multisig_as_multi_threshold_1_V1;
+    pd_multisig_as_multi_V1_t multisig_as_multi_V1;
+    pd_multisig_approve_as_multi_V1_t multisig_approve_as_multi_V1;
+    pd_multisig_cancel_as_multi_V1_t multisig_cancel_as_multi_V1;
 #endif
 } pd_MethodNested_V1_t;
 

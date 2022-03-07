@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Elixxir  1.200.x
+# Elixxir  1.201.x
 
 ## System
 
@@ -114,6 +114,7 @@ Please:
 |Kick |    | :heavy_check_mark: |   | `VecLookupasStaticLookupSource` who <br/> |
 |Set staking limits |    |   |   | `Balance` min_nominator_bond <br/>`Balance` min_validator_bond <br/>`Optionu32` max_nominator_count <br/>`Optionu32` max_validator_count <br/>`OptionPercent` threshold <br/>`Perbill` min_commission <br/> |
 |Chill other |    | :heavy_check_mark: |   | `AccountId` controller <br/> |
+|Set cmix id |    | :heavy_check_mark: |   | `Hash` cmix_id <br/> |
 
 ## ElectionProviderMultiPhase
 
@@ -237,6 +238,7 @@ Please:
 |Claim attest |    | :heavy_check_mark: |   | `AccountId` dest <br/>`EcdsaSignature` ethereum_signature <br/>`Bytes` statement <br/> |
 |Attest |    | :heavy_check_mark: |   | `Bytes` statement <br/> |
 |Move claim |    | :heavy_check_mark: |   | `EthereumAddress` old <br/>`EthereumAddress` new_ <br/>`OptionAccountId` maybe_preclaim <br/> |
+|Set vesting |    |   |   | `EthereumAddress` who <br/>`OptionVecTupleBalanceOfTBalanceOfTBlockNumber` vesting_schedules <br/> |
 
 ## Vesting
 
@@ -247,6 +249,7 @@ Please:
 |Vested transfer |    |   |   | `LookupasStaticLookupSource` target <br/>`VestingInfoBalanceOfTBlockNumber` schedule <br/> |
 |Force vested transfer |    |   |   | `LookupasStaticLookupSource` source <br/>`LookupasStaticLookupSource` target <br/>`VestingInfoBalanceOfTBlockNumber` schedule <br/> |
 |Merge schedules |    | :heavy_check_mark: |   | `u32` schedule1_index <br/>`u32` schedule2_index <br/> |
+|Admin set vesting |    |   |   | `LookupasStaticLookupSource` target <br/>`VecVestingInfoBalanceOfTBlockNumber` schedules <br/> |
 
 ## Utility
 

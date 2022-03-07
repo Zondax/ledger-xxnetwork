@@ -1,18 +1,18 @@
 /*******************************************************************************
-*  (c) 2019 - 2022 Zondax GmbH
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-********************************************************************************/
+ *  (c) 2019 - 2022 Zondax GmbH
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ ********************************************************************************/
 #include "bignum.h"
 #include "coin.h"
 #include "parser_impl.h"
@@ -109,7 +109,7 @@ parser_error_t _readCompactPerBill_V1(parser_context_t* c, pd_CompactPerBill_V1_
 
 parser_error_t _readConviction_V1(parser_context_t* c, pd_Conviction_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt8(c, &v->value))
     if (v->value > 5) {
         return parser_value_out_of_range;
@@ -141,7 +141,7 @@ parser_error_t _readElectionScore_V1(parser_context_t* c, pd_ElectionScore_V1_t*
 
 parser_error_t _readEraIndex_V1(parser_context_t* c, pd_EraIndex_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
     return parser_ok;
 }
@@ -189,7 +189,7 @@ parser_error_t _readKeys_V1(parser_context_t* c, pd_Keys_V1_t* v) {
 
 parser_error_t _readLookupasStaticLookupSource_V1(parser_context_t* c, pd_LookupasStaticLookupSource_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt8(c, &v->value))
     switch (v->value) {
     case 0: // Id
@@ -216,7 +216,7 @@ parser_error_t _readLookupasStaticLookupSource_V1(parser_context_t* c, pd_Lookup
 
 parser_error_t _readMemberCount_V1(parser_context_t* c, pd_MemberCount_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
     return parser_ok;
 }
@@ -236,7 +236,7 @@ parser_error_t _readOpaqueCall_V1(parser_context_t* c, pd_OpaqueCall_V1_t* v)
 
 parser_error_t _readPerbill_V1(parser_context_t* c, pd_Perbill_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
     return parser_ok;
 }
@@ -248,7 +248,7 @@ parser_error_t _readPercent_V1(parser_context_t* c, pd_Percent_V1_t* v)
 
 parser_error_t _readProxyType_V1(parser_context_t* c, pd_ProxyType_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt8(c, &v->value))
     if (v->value > 3) {
         return parser_value_out_of_range;
@@ -258,14 +258,14 @@ parser_error_t _readProxyType_V1(parser_context_t* c, pd_ProxyType_V1_t* v)
 
 parser_error_t _readReferendumIndex_V1(parser_context_t* c, pd_ReferendumIndex_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
     return parser_ok;
 }
 
 parser_error_t _readRegistrarIndex_V1(parser_context_t* c, pd_RegistrarIndex_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
     return parser_ok;
 }
@@ -326,7 +326,7 @@ parser_error_t _readTupleBalanceOfTBalanceOfTBlockNumber_V1(parser_context_t* c,
 
 parser_error_t _readValidatorPrefs_V1(parser_context_t* c, pd_ValidatorPrefs_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readCompactPerBill_V1(c, &v->commission));
     CHECK_ERROR(_readbool(c, &v->blocked))
     return parser_ok;
@@ -339,7 +339,7 @@ parser_error_t _readVestingInfoBalanceOfTBlockNumber_V1(parser_context_t* c, pd_
 
 parser_error_t _readWeight_V1(parser_context_t* c, pd_Weight_V1_t* v)
 {
-    CHECK_INPUT();
+    CHECK_INPUT()
     CHECK_ERROR(_readUInt64(c, &v->value))
     return parser_ok;
 }
@@ -413,6 +413,10 @@ parser_error_t _readVecTupleAccountIdu32_V1(parser_context_t* c, pd_VecTupleAcco
 
 parser_error_t _readVecTupleBalanceOfTBalanceOfTBlockNumber_V1(parser_context_t* c, pd_VecTupleBalanceOfTBalanceOfTBlockNumber_V1_t* v) {
     GEN_DEF_READVECTOR(TupleBalanceOfTBalanceOfTBlockNumber_V1)
+}
+
+parser_error_t _readVecVestingInfoBalanceOfTBlockNumber_V1(parser_context_t* c, pd_VecVestingInfoBalanceOfTBlockNumber_V1_t* v) {
+    GEN_DEF_READVECTOR(VestingInfoBalanceOfTBlockNumber_V1)
 }
 
 parser_error_t _readVecinflationIdealInterestPointBlockNumber_V1(parser_context_t* c, pd_VecinflationIdealInterestPointBlockNumber_V1_t* v) {
@@ -1456,6 +1460,16 @@ parser_error_t _toStringVecTupleBalanceOfTBalanceOfTBlockNumber_V1(
     uint8_t* pageCount)
 {
     GEN_DEF_TOSTRING_VECTOR(TupleBalanceOfTBalanceOfTBlockNumber_V1);
+}
+
+parser_error_t _toStringVecVestingInfoBalanceOfTBlockNumber_V1(
+    const pd_VecVestingInfoBalanceOfTBlockNumber_V1_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    GEN_DEF_TOSTRING_VECTOR(VestingInfoBalanceOfTBlockNumber_V1);
 }
 
 parser_error_t _toStringVecinflationIdealInterestPointBlockNumber_V1(

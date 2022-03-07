@@ -1,18 +1,18 @@
 /*******************************************************************************
-*  (c) 2019 - 2022 Zondax GmbH
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-********************************************************************************/
+ *  (c) 2019 - 2022 Zondax GmbH
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ ********************************************************************************/
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wextern-c-compat"
 #pragma once
@@ -197,6 +197,11 @@ typedef struct {
 typedef struct {
     pd_AccountId_V1_t controller;
 } pd_staking_chill_other_V1_t;
+
+#define PD_CALL_STAKING_SET_CMIX_ID_V1 24
+typedef struct {
+    pd_Hash_t cmix_id;
+} pd_staking_set_cmix_id_V1_t;
 
 #define PD_CALL_GRANDPA_NOTE_STALLED_V1 2
 typedef struct {
@@ -1003,6 +1008,7 @@ typedef union {
     pd_staking_reap_stash_V1_t staking_reap_stash_V1;
     pd_staking_kick_V1_t staking_kick_V1;
     pd_staking_chill_other_V1_t staking_chill_other_V1;
+    pd_staking_set_cmix_id_V1_t staking_set_cmix_id_V1;
     pd_grandpa_note_stalled_V1_t grandpa_note_stalled_V1;
     pd_council_set_members_V1_t council_set_members_V1;
     pd_council_vote_V1_t council_vote_V1;

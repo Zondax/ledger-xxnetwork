@@ -1,18 +1,18 @@
 /*******************************************************************************
-*  (c) 2019 - 2022 Zondax GmbH
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-********************************************************************************/
+ *  (c) 2019 - 2022 Zondax GmbH
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ ********************************************************************************/
 #pragma once
 
 #ifdef __cplusplus
@@ -98,6 +98,7 @@ parser_error_t _readVecTransferDataAccountIdBalanceOfTBlockNumber_V1(parser_cont
 parser_error_t _readVecTupleAccountIdData_V1(parser_context_t* c, pd_VecTupleAccountIdData_V1_t* v);
 parser_error_t _readVecTupleAccountIdu32_V1(parser_context_t* c, pd_VecTupleAccountIdu32_V1_t* v);
 parser_error_t _readVecTupleBalanceOfTBalanceOfTBlockNumber_V1(parser_context_t* c, pd_VecTupleBalanceOfTBalanceOfTBlockNumber_V1_t* v);
+parser_error_t _readVecVestingInfoBalanceOfTBlockNumber_V1(parser_context_t* c, pd_VecVestingInfoBalanceOfTBlockNumber_V1_t* v);
 parser_error_t _readVecinflationIdealInterestPointBlockNumber_V1(parser_context_t* c, pd_VecinflationIdealInterestPointBlockNumber_V1_t* v);
 parser_error_t _readVestingInfoBalanceOfTBlockNumber_V1(parser_context_t* c, pd_VestingInfoBalanceOfTBlockNumber_V1_t* v);
 parser_error_t _readWeight_V1(parser_context_t* c, pd_Weight_V1_t* v);
@@ -609,6 +610,13 @@ parser_error_t _toStringVecTupleAccountIdu32_V1(
 
 parser_error_t _toStringVecTupleBalanceOfTBalanceOfTBlockNumber_V1(
     const pd_VecTupleBalanceOfTBalanceOfTBlockNumber_V1_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringVecVestingInfoBalanceOfTBlockNumber_V1(
+    const pd_VecVestingInfoBalanceOfTBlockNumber_V1_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

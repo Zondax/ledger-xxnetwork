@@ -1,18 +1,18 @@
 /*******************************************************************************
-*  (c) 2019 - 2022 Zondax GmbH
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-********************************************************************************/
+ *  (c) 2019 - 2022 Zondax GmbH
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ ********************************************************************************/
 
 #include "substrate_dispatch_V1.h"
 #include "substrate_strings.h"
@@ -287,6 +287,13 @@ __Z_INLINE parser_error_t _readMethod_staking_chill_other_V1(
     parser_context_t* c, pd_staking_chill_other_V1_t* m)
 {
     CHECK_ERROR(_readAccountId_V1(c, &m->controller))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_staking_set_cmix_id_V1(
+    parser_context_t* c, pd_staking_set_cmix_id_V1_t* m)
+{
+    CHECK_ERROR(_readHash(c, &m->cmix_id))
     return parser_ok;
 }
 
@@ -1501,6 +1508,9 @@ parser_error_t _readMethod_V1(
     case 1559: /* module 6 call 23 */
         CHECK_ERROR(_readMethod_staking_chill_other_V1(c, &method->basic.staking_chill_other_V1))
         break;
+    case 1560: /* module 6 call 24 */
+        CHECK_ERROR(_readMethod_staking_set_cmix_id_V1(c, &method->basic.staking_set_cmix_id_V1))
+        break;
     case 2562: /* module 10 call 2 */
         CHECK_ERROR(_readMethod_grandpa_note_stalled_V1(c, &method->basic.grandpa_note_stalled_V1))
         break;
@@ -2102,6 +2112,8 @@ const char* _getMethod_Name_V1(uint8_t moduleIdx, uint8_t callIdx)
         return STR_ME_SET_STAKING_LIMITS;
     case 1559: /* module 6 call 23 */
         return STR_ME_CHILL_OTHER;
+    case 1560: /* module 6 call 24 */
+        return STR_ME_SET_CMIX_ID;
     case 1792: /* module 7 call 0 */
         return STR_ME_SUBMIT_UNSIGNED;
     case 1793: /* module 7 call 1 */
@@ -2234,6 +2246,8 @@ const char* _getMethod_Name_V1(uint8_t moduleIdx, uint8_t callIdx)
         return STR_ME_ATTEST;
     case 4868: /* module 19 call 4 */
         return STR_ME_MOVE_CLAIM;
+    case 4869: /* module 19 call 5 */
+        return STR_ME_SET_VESTING;
     case 5120: /* module 20 call 0 */
         return STR_ME_VEST;
     case 5121: /* module 20 call 1 */
@@ -2244,6 +2258,8 @@ const char* _getMethod_Name_V1(uint8_t moduleIdx, uint8_t callIdx)
         return STR_ME_FORCE_VESTED_TRANSFER;
     case 5124: /* module 20 call 4 */
         return STR_ME_MERGE_SCHEDULES;
+    case 5125: /* module 20 call 5 */
+        return STR_ME_ADMIN_SET_VESTING;
     case 5376: /* module 21 call 0 */
         return STR_ME_BATCH;
     case 5377: /* module 21 call 1 */
@@ -2613,6 +2629,8 @@ uint8_t _getMethod_NumItems_V1(uint8_t moduleIdx, uint8_t callIdx)
     case 1557: /* module 6 call 21 */
         return 1;
     case 1559: /* module 6 call 23 */
+        return 1;
+    case 1560: /* module 6 call 24 */
         return 1;
     case 2562: /* module 10 call 2 */
         return 2;
@@ -3178,6 +3196,13 @@ const char* _getMethod_ItemName_V1(uint8_t moduleIdx, uint8_t callIdx, uint8_t i
         switch (itemIdx) {
         case 0:
             return STR_IT_controller;
+        default:
+            return NULL;
+        }
+    case 1560: /* module 6 call 24 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_cmix_id;
         default:
             return NULL;
         }
@@ -4839,6 +4864,16 @@ parser_error_t _getMethod_ItemValue_V1(
         case 0: /* staking_chill_other_V1 - controller */;
             return _toStringAccountId_V1(
                 &m->basic.staking_chill_other_V1.controller,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 1560: /* module 6 call 24 */
+        switch (itemIdx) {
+        case 0: /* staking_set_cmix_id_V1 - cmix_id */;
+            return _toStringHash(
+                &m->basic.staking_set_cmix_id_V1.cmix_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -6944,6 +6979,7 @@ bool _getMethod_IsNestingSupported_V1(uint8_t moduleIdx, uint8_t callIdx)
     case 1556: // Staking:Reap stash
     case 1557: // Staking:Kick
     case 1559: // Staking:Chill other
+    case 1560: // Staking:Set cmix id
     case 2304: // Session:Set keys
     case 2305: // Session:Purge keys
     case 2562: // Grandpa:Note stalled

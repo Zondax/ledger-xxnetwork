@@ -1,18 +1,18 @@
 /*******************************************************************************
-*  (c) 2019 - 2022 Zondax GmbH
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-********************************************************************************/
+ *  (c) 2019 - 2022 Zondax GmbH
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ ********************************************************************************/
 #pragma once
 
 #ifdef __cplusplus
@@ -287,6 +287,9 @@ static const char* STR_ME_SET_ATTRIBUTE = "Set attribute";
 static const char* STR_ME_CLEAR_ATTRIBUTE = "Clear attribute";
 static const char* STR_ME_SET_CLASS_METADATA = "Set class metadata";
 static const char* STR_ME_CLEAR_CLASS_METADATA = "Clear class metadata";
+static const char* STR_ME_SET_CMIX_ID = "Set cmix id";
+static const char* STR_ME_SET_VESTING = "Set vesting";
+static const char* STR_ME_ADMIN_SET_VESTING = "Admin set vesting";
 
 // Items names
 static const char* STR_IT_ratio = "Ratio";
@@ -453,6 +456,7 @@ static const char* STR_IT_maybe_instance = "Maybe instance";
 static const char* STR_IT_key = "Key";
 static const char* STR_IT_value = "Value";
 static const char* STR_IT_Amount = "Amount";
+static const char* STR_IT_schedules = "Schedules";
 
 #ifdef __cplusplus
 }
